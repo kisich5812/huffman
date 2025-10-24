@@ -4,14 +4,17 @@ C_FLAGS= -D _DEBUG -ggdb3 -std=c++17 -O0 -Wall -Wextra -Weffc++ -Waggressive-loo
 
 all: huffman
 
-huffman: main.o huffman.o
-	$(COMPILER) $(C_FLAGS) main.o huffman.o -o huffman
+huffman: main.o huffman.o io_func.o
+	$(COMPILER) $(C_FLAGS) main.o io_func.o huffman.o -o huffman
 
 main.o: main.c
 	$(COMPILER) $(C_FLAGS) -c main.c
 
 huffman.o: huffman.c
 	$(COMPILER) $(C_FLAGS) -c huffman.c
+
+io_func.o: io_func.c
+	$(COMPILER) $(C_FLAGS) -c io_func.c
 
 obj_clean:
 	rm -rf *.o
