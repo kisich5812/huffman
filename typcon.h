@@ -5,8 +5,8 @@
 
 struct symbol
 {
-        int sym;
-        long long val;
+	int sym;
+	long long val;
 };
 
 #endif

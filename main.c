@@ -8,11 +8,12 @@ int main(int argc, char* argv[])
 	if (finput == NULL)
 		return -1;
 
-	int val_sym = 1; 
-	struct symbol* alph = (symbol*) calloc((size_t)val_sym, sizeof(symbol));
+	int val_sym = 0; 
+	struct symbol* alph = (symbol*) calloc(256, sizeof(symbol));
 	
 	alph = dif_sym(finput, alph, &val_sym);
 	
+	sort(alph, val_sym);
 	print_symbols(alph, val_sym);
 
 	free(alph);
