@@ -13,10 +13,16 @@ int main(int argc, char* argv[])
 	
 	alph = dif_sym(finput, alph, &val_sym);
 	
-	sort(alph, val_sym);
 	print_symbols(alph, val_sym);
+	//sort(alph, val_sym);
+	struct symbol* table = make_table(alph, val_sym);
 
+	print_table(table, 0);
+	
+	destroy_table(table);
 	free(alph);
 	fclose(finput);
+	
+	printf("The end!");
 	return 0;
 }

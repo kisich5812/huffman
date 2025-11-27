@@ -35,15 +35,15 @@ struct symbol* dif_sym(FILE* file, symbol* alph, int *val_syms)
 void sort(struct symbol* a, int n)
 {
 	int i = n;
-	long long minimum = LLONG_MAX;
+	long long maximum = -1;
 	int num_min = -1;
 	while(i>0)
 	{
 		for(int j = n-i; j<n; j++)
 		{
-			if (a[j].val < minimum)
+			if (a[j].val > maximum)
 			{
-				minimum = a[j].val;
+				maximum = a[j].val;
 				num_min = j;
 			}
 		}
@@ -53,7 +53,73 @@ void sort(struct symbol* a, int n)
 		a[n-i].val = a[num_min].val;
 		a[num_min].sym = change_sym;
 		a[num_min].val = change_val;
-		minimum = LLONG_MAX;
+		maximum = -1;
 		i--;
 	}
 }
+
+struct symbol* make_copy(struct symbol alph)
+{
+	struct symbol* c = (struct symbol*) calloc(1, sizeof(struct symbol));
+	*c = alph;
+	return c;
+}
+
+
+struct symbol* make_table(struct symbol* alph, int val_sym)
+{
+	struct symbol* root = NULL;
+	if (val_sym > 2)
+	{
+		sort(alph, val_sym);
+		struct symbol* c1 = make_copy(alph[val_sym-1]);
+		struct symbol* c2 = make_copy(alph[val_sym-2]);
+		alph[val_sym-2].sym = '\0';
+		alph[val_sym-2].val = alph[val_sym-1].val + alph[val_sym-2].val;
+		alph[val_sym-2].right = c1;
+		alph[val_sym-2].left = c2;
+		root = make_table(alph, val_sym-1);
+	}
+	if (val_sym == 2)
+	{
+		root = (struct symbol*) malloc(sizeof(struct symbol));
+		root->sym = '\0';
+		root->val = 0;
+		struct symbol* c1 = make_copy(alph[val_sym-1]);
+		struct symbol* c2 = make_copy(alph[val_sym-2]);
+		root->right = c1;
+		root->left = c2;
+	}
+	if (val_sym == 1)
+	{
+		root = (struct symbol*) malloc(sizeof(struct symbol));
+		root->sym = '\0';
+		root->val = 0;
+		root->right = alph;
+		root->left = NULL;
+	}
+	else if (val_sym == 0)
+		return 0;
+	return root;
+}
+
+void destroy_table(struct symbol* table)
+{
+	if (!table)
+		return;
+	destroy_table(table->left);
+	destroy_table(table->right);
+	free(table);
+}
+
+/*struct table* start_table(struct symbol* alph, int val_sym, struct table* t)
+{
+	if(val_sym == 0)
+		return 0;
+	else
+	{
+		struct table* new = (struct tree*) calloc(1, sizeof(struct table));
+		sort(a, val_sym);		
+		if (t == NULL)
+		{
+*/			
