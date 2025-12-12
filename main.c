@@ -17,8 +17,10 @@ int main(int argc, char* argv[])
 	//sort(alph, val_sym);
 	struct symbol* table = make_table(alph, val_sym);
 
-	print_table(table, 0);
-	
+	//print_table(table, 0);
+	print_t(table);
+	codes(table, -1);
+
 	destroy_table(table);
 	free(alph);
 	fclose(finput);

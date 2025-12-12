@@ -49,10 +49,16 @@ void sort(struct symbol* a, int n)
 		}
 		int change_sym = a[n-i].sym;
 		long long change_val = a[n-i].val;
+		struct symbol* c_left = a[n-i].left;
+		struct symbol* c_right = a[n-i].right;
 		a[n-i].sym = a[num_min].sym;
 		a[n-i].val = a[num_min].val;
+		a[n-i].left = a[num_min].left;
+		a[n-i].right = a[num_min].right;
 		a[num_min].sym = change_sym;
 		a[num_min].val = change_val;
+		a[num_min].left = c_left;
+		a[num_min].right = c_right;
 		maximum = -1;
 		i--;
 	}
@@ -112,14 +118,36 @@ void destroy_table(struct symbol* table)
 	free(table);
 }
 
-/*struct table* start_table(struct symbol* alph, int val_sym, struct table* t)
+int codes(struct symbol* table, int is_left)
 {
-	if(val_sym == 0)
-		return 0;
-	else
+	if (!table)
 	{
-		struct table* new = (struct tree*) calloc(1, sizeof(struct table));
-		sort(a, val_sym);		
-		if (t == NULL)
-		{
-*/			
+		printf("\n");
+		return 0;
+	}
+	if (is_left)
+		printf("0");
+	else
+		printf("1");
+	if(table->sym != '\0')
+		printf(" %c", table->sym);
+	int left = codes(table->left, 1);
+	int right = codes(table->right, 0);
+	return 0;
+}
+/*int _print_t(struct symbol *tree, int is_left, int offset, int depth, char s[20][255])
+ 48 {
+ 49     char b[20];
+ 50     int width = 6;
+ 51 
+ 52     if (!tree) return 0;
+ 53 
+ 54     if (is_left)
+ 55             sprintf(b, "(%03d)0", tree->sym);
+ 56     else
+ 57             sprintf(b, "(%03d)1", tree->sym);
+ 58 
+ 59 
+ 60     int left  = _print_t(tree->left,  1, offset,                depth + 1, s);
+ 61     int right = _print_t(tree->right, 0, offset + left + width, depth + 1, s);
+*/
