@@ -8,7 +8,7 @@ struct symbol {
 	long long val;
 	struct symbol* left;
 	struct symbol* right;
-	char code[1000] = {0};
+	char code[1000];
 };
 
 /*struct table {

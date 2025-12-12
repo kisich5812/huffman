@@ -26,24 +26,6 @@ int print_symbols(struct symbol* alph, int val_sym)
 	return 0;
 }
 
-/*int print_table(struct symbol* table, int h)
-{
-	h++;
-	printf("table:\n");
-	if ((table->left))
-	{
-		printf("h: %d val: %c %lld\n", h, table->left->sym, table->left->val);
-		print_table(table->left, h);
-	}
-	if ((table->right))
-	{
-		printf("h: %d val: %c %lld\n", h, table->right->sym, table->right->val);
-		print_table(table->right, h);
-	}
-		//printf("h: %d\nval: '%c' %lld\n", h, table->sym, table->val);
-	return 0;
-}*/
-
 int _print_t(struct symbol *tree, int is_left, int offset, int depth, char s[20][255])
 {
     char b[20];
@@ -113,4 +95,17 @@ void print_t(struct symbol *tree)
 
     for (int i = 0; i < 20; i++)
         printf("%s\n", s[i]);
+}
+
+int print_codes(struct symbol* table) {
+	if (!table)
+		return 0;
+	if (!table->left && !table->right)
+	{
+		printf("'%d' code: \"%s\"\n", table->sym, table->code);
+		return 0;
+	}
+	print_codes(table->left);
+	print_codes(table->right);
+	return 0;
 }

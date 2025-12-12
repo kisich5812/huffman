@@ -9,22 +9,20 @@ int main(int argc, char* argv[])
 		return -1;
 
 	int val_sym = 0; 
-	struct symbol* alph = (symbol*) calloc(256, sizeof(symbol));
+	struct symbol* alph = (struct symbol*) calloc(256, sizeof(struct symbol));
 	
 	alph = dif_sym(finput, alph, &val_sym);
 	
-	print_symbols(alph, val_sym);
-	//sort(alph, val_sym);
+	//print_symbols(alph, val_sym);
 	struct symbol* table = make_table(alph, val_sym);
 
-	//print_table(table, 0);
-	print_t(table);
-	codes(table, -1);
+	//print_t(table);
+	codes(table, NULL, -1);
+	print_codes(table);
 
 	destroy_table(table);
 	free(alph);
 	fclose(finput);
 	
-	printf("The end!");
 	return 0;
 }

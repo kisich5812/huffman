@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <string.h>
 #include "huffman.h"
 
-struct symbol* dif_sym(FILE* file, symbol* alph, int *val_syms)
+struct symbol* dif_sym(FILE* file, struct symbol* alph, int *val_syms)
 {
 	int c = fgetc(file);
 	while(c != EOF)
@@ -88,7 +89,7 @@ struct symbol* make_table(struct symbol* alph, int val_sym)
 	}
 	if (val_sym == 2)
 	{
-		root = (struct symbol*) malloc(sizeof(struct symbol));
+		root = (struct symbol*) calloc(1, sizeof(struct symbol));
 		root->sym = '\0';
 		root->val = 0;
 		struct symbol* c1 = make_copy(alph[val_sym-1]);
@@ -98,7 +99,7 @@ struct symbol* make_table(struct symbol* alph, int val_sym)
 	}
 	if (val_sym == 1)
 	{
-		root = (struct symbol*) malloc(sizeof(struct symbol));
+		root = (struct symbol*) calloc(1, sizeof(struct symbol));
 		root->sym = '\0';
 		root->val = 0;
 		root->right = alph;
@@ -118,36 +119,18 @@ void destroy_table(struct symbol* table)
 	free(table);
 }
 
-int codes(struct symbol* table, int is_left)
-{
-	if (!table)
-	{
-		printf("\n");
+int codes(struct symbol* t, struct symbol* t_old, int c) {
+	if (!t)
 		return 0;
+	if (t_old) {
+		//printf("t: %p, t_old: %p\nt->code: %p, t_old->code: %p\n", t, t_old, t->code, t_old->code);
+		strcat(t->code, t_old->code);
+		if(c)
+			strcat(t->code, "1");
+		else
+			strcat(t->code, "0");
 	}
-	if (is_left)
-		printf("0");
-	else
-		printf("1");
-	if(table->sym != '\0')
-		printf(" %c", table->sym);
-	int left = codes(table->left, 1);
-	int right = codes(table->right, 0);
+	codes(t->left, t, 0);
+	codes(t->right, t, 1);
 	return 0;
 }
-/*int _print_t(struct symbol *tree, int is_left, int offset, int depth, char s[20][255])
- 48 {
- 49     char b[20];
- 50     int width = 6;
- 51 
- 52     if (!tree) return 0;
- 53 
- 54     if (is_left)
- 55             sprintf(b, "(%03d)0", tree->sym);
- 56     else
- 57             sprintf(b, "(%03d)1", tree->sym);
- 58 
- 59 
- 60     int left  = _print_t(tree->left,  1, offset,                depth + 1, s);
- 61     int right = _print_t(tree->right, 0, offset + left + width, depth + 1, s);
-*/
