@@ -1,8 +1,6 @@
 #ifndef _TYPCON_
 #define _TYPCON_
 
-#include "typcon.h"
-
 struct symbol {
 	int sym;
 	long long val;
@@ -11,11 +9,18 @@ struct symbol {
 	char code[1000];
 };
 
-/*struct table {
-	char a[256];
-	struct symbol* sym;
-	struct tree* left;
-	struct tree* right;
-}*/
+typedef struct code {
+	int sym;
+	char code[1000];
+} Code;
+
+typedef struct flags {
+	char* output_file;
+	char* table_file;
+	bool screen;
+	char* input_file;
+	bool enc;
+	bool dec;
+} Flags;
 
 #endif

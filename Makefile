@@ -4,8 +4,8 @@ C_FLAGS=
 
 all: huffman
 
-huffman: main.o huffman.o io_func.o
-	$(COMPILER) $(C_FLAGS) main.o io_func.o huffman.o -o huffman
+huffman: main.o huffman.o io_func.o flags.o encdec.o
+	$(COMPILER) $(C_FLAGS) main.o io_func.o flags.o huffman.o encdec.o -o huffman
 
 main.o: src/main.c
 	$(COMPILER) $(C_FLAGS) -c src/main.c
@@ -15,6 +15,12 @@ huffman.o: src/huffman.c
 
 io_func.o: src/io_func.c
 	$(COMPILER) $(C_FLAGS) -c src/io_func.c
+
+flags.o: src/flags.c
+	$(COMPILER) $(C_FLAGS) -c src/flags.c
+
+encdec.o: src/encdec.c
+	$(COMPILER) $(C_FLAGS) -c src/encdec.c
 
 obj_clean:
 	rm -rf *.o

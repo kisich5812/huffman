@@ -4,25 +4,15 @@
 
 int main(int argc, char* argv[])
 {
-	FILE* finput = open_file(argc, argv);
-	if (finput == NULL)
-		return -1;
+	Flags* f = check_flags(argc, argv);
+	if ( !f ) return 0;
+	if (f->enc && f->dec) return -printf("Ошибка! Недопустима и расшифровка и дешифровка одновременно.\n");
+	if (f->enc)
+		main_enc(f);
+	if (f->dec)
+		main_dec(f);
+	if (!f->enc && !f->dec) return -printf("Нечего делать!\n");
+	free(f);
 
-	int val_sym = 0; 
-	struct symbol* alph = (struct symbol*) calloc(256, sizeof(struct symbol));
-	
-	alph = dif_sym(finput, alph, &val_sym);
-	
-	//print_symbols(alph, val_sym);
-	struct symbol* table = make_table(alph, val_sym);
-
-	//print_t(table);
-	codes(table, NULL, -1);
-	print_codes(table);
-
-	destroy_table(table);
-	free(alph);
-	fclose(finput);
-	
 	return 0;
 }

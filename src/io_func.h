@@ -7,6 +7,7 @@ FILE* open_file(int argc, char* argv[]);
 int print_symbols(struct symbol* alph, int val_sym);
 int print_table(struct symbol* table, int h);
 void print_t(struct symbol* tree);
-int print_codes(struct symbol* table);
+int print_codes(struct symbol* table, FILE* t, Code* codes, bool screen);
+void print_help();
 
 #endif
