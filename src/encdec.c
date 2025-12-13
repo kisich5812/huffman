@@ -21,7 +21,7 @@ int main_enc(Flags* f) {
 	codes(table, NULL, -1);
 	
 	fprintf(t_file, "%d\n", val_sym);
-	Code* codes = (Code*)calloc(1, sizeof(Code));
+	Code* codes = (Code*)calloc(val_sym, sizeof(Code));
 	print_codes(table, t_file, codes, f->screen);
 
 	destroy_table(table);
@@ -59,7 +59,7 @@ int main_dec(Flags* f) {
 	int val_sym = 0;
 	fscanf(t_file, "%d", &val_sym);
 
-	Code* codes = (Code*)calloc(1, sizeof(Code));
+	Code* codes = (Code*)calloc(val_sym, sizeof(Code));
 	for(int i = 0; i<val_sym; i++)
 	{
 		fscanf(t_file, "%d", &codes[i].sym);

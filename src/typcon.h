@@ -1,6 +1,8 @@
 #ifndef _TYPCON_
 #define _TYPCON_
 
+#include <stdbool.h>
+
 struct symbol {
 	int sym;
 	long long val;
